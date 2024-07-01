@@ -1,8 +1,8 @@
 import sys
-from random import sample
 
 import pandas as pd
 from numpy import full
+import secrets
 
 HEADER_DISTINCT_ID = '$distinct_id'
 HEADER_FIRST_SEEN = '$mp_first_event_time'
@@ -85,7 +85,7 @@ def main():
             random_set_of_user_ids_for_day = users_on_day
             total_missing_users += RANDOM_SAMPLE_PER_DAY_SIZE - len(users_on_day)
         else:
-            random_set_of_user_ids_for_day = sample(users_on_day, RANDOM_SAMPLE_PER_DAY_SIZE)
+            random_set_of_user_ids_for_day = secrets.SystemRandom().sample(users_on_day, RANDOM_SAMPLE_PER_DAY_SIZE)
         for id in random_set_of_user_ids_for_day:
             random_sample[HEADER_DISTINCT_ID].append(id)
             random_sample[HEADER_COHORT].append(cohort_name)

@@ -5,7 +5,6 @@
 # Distributed under the terms of the GPL License.
 
 import json
-import random
 import string
 from copy import copy, deepcopy
 from typing import Any, Callable, Collection, Dict, List, Optional, Set, Tuple, Union
@@ -39,6 +38,7 @@ from mitosheet.updates import UPDATES
 from mitosheet.user.utils import is_enterprise, is_pro, is_running_test
 from mitosheet.utils import NpEncoder, dfs_to_array_for_json, get_new_id, is_default_df_names
 from mitosheet.step_performers.utils.user_defined_functionality import validate_and_wrap_sheet_functions
+import secrets
 
 def get_step_indexes_to_skip(step_list: List[Step]) -> Set[int]:
     """
@@ -192,7 +192,7 @@ class StepsManager:
         """
 
         # We just randomly generate analysis names as a string of 10 letters
-        self.analysis_name = 'id-' + ''.join(random.choice(string.ascii_lowercase) for _ in range(10))
+        self.analysis_name = 'id-' + ''.join(secrets.choice(string.ascii_lowercase) for _ in range(10))
 
         # We also save some data about the analysis the user wants to replay, if there
         # is such an analysis

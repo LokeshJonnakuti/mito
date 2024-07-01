@@ -17,7 +17,6 @@ Notably, the ID of the column header is just a string representation
 of the column header. For string column headers, they are just
 themselves.
 """
-import random
 from typing import Any, Collection, Dict, List, Optional
 import numpy as np
 
@@ -25,6 +24,7 @@ import pandas as pd
 
 from mitosheet.errors import make_no_column_error
 from mitosheet.types import ColumnHeader, ColumnID, MultiLevelColumnHeader
+import secrets
 
 
 def get_column_header_display(column_header: ColumnHeader) -> str:
@@ -84,7 +84,7 @@ def try_make_new_header_valid_if_multi_index_headers(column_headers: List[Column
     this function helps you make such a header
     """
     if (not isinstance(new_column_header, tuple) and not isinstance(new_column_header, list)) and len(column_headers) > 0:
-        other_column_header = random.choice(list(column_headers))
+        other_column_header = secrets.choice(list(column_headers))
         if isinstance(other_column_header, tuple):
             ending_list: MultiLevelColumnHeader = [new_column_header] + ['' for _ in range(len(other_column_header) - 1)]
             return tuple(ending_list)

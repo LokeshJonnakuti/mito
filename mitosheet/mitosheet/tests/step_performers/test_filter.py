@@ -42,6 +42,7 @@ from mitosheet.types import (
     FC_STRING_CONTAINS_CASE_INSENSITIVE,
 )
 from mitosheet.tests.test_utils import create_mito_wrapper_with_data, create_mito_wrapper
+import secrets
 
 FILTER_TESTS = [
     (
@@ -344,12 +345,8 @@ def test_filter(df, condition, value, filtered_df):
     else:
         assert mito.dfs[0].equals(filtered_df)
 
-
-# For speed, we only take 25 random filter tests.
-import random
-
 DOUBLE_FILTER_TESTS = list(combinations(FILTER_TESTS, 2))
-DOUBLE_FILTER_TESTS_SELECTED = random.sample(DOUBLE_FILTER_TESTS, 25)
+DOUBLE_FILTER_TESTS_SELECTED = secrets.SystemRandom().sample(DOUBLE_FILTER_TESTS, 25)
 
 
 @pytest.mark.parametrize("test1, test2", DOUBLE_FILTER_TESTS_SELECTED)
