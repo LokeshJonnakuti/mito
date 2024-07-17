@@ -193,7 +193,7 @@ def guess_delimeter(file_name: str, encoding: Optional[str]=None) -> str:
     """
     s = csv.Sniffer()
     with open(file_name, 'r', encoding=encoding) as f:
-        return s.sniff(f.readline()).delimiter
+        return s.sniff(f.readline(5_000_000)).delimiter
 
 def guess_encoding(file_name: str) -> str:
     """
@@ -202,7 +202,7 @@ def guess_encoding(file_name: str) -> str:
     """
     # Attempt to determine the encoding and try again. 
     with open(file_name, 'rb') as f:
-        result = chardet.detect(f.readline())
+        result = chardet.detect(f.readline(5_000_000))
         return result['encoding']
 
 
