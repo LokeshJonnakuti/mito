@@ -23,6 +23,7 @@ from mitosheet.types import (ColumnHeader, ColumnID, DataframeFormat, FrontendFo
 from mitosheet.excel_utils import get_df_name_as_valid_sheet_name
 
 from mitosheet.public.v3.formatting import add_formatting_to_excel_sheet
+from security import safe_command
 
 
 # We only send the first 1500 rows of a dataframe; note that this
@@ -458,8 +459,7 @@ def run_command(command_array: List[str]) -> Tuple[str, str]:
     commands can be captured.
     """
     import subprocess
-    completed_process = subprocess.run(
-        command_array, 
+    completed_process = safe_command.run(subprocess.run, command_array, 
         # NOTE: we do not use the capture_output variable, as this doesn't work before
         # python 3.7
         stdout=subprocess.PIPE, 

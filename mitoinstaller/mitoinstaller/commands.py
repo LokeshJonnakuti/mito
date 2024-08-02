@@ -11,6 +11,7 @@ from subprocess import CompletedProcess
 from typing import List, Tuple, Union
 
 from termcolor import colored  # type: ignore
+from security import safe_command
 
 # NOTE: Do not import subprocess here, we only want one
 # function to have it
@@ -35,8 +36,7 @@ def run_command(command_array: List[str], fail_on_nonzero_exit_code: bool=True) 
     Can toggle if this raises an error with fail_on_nonzero_exit_code
     """
     import subprocess
-    completed_process = subprocess.run(
-        command_array, 
+    completed_process = safe_command.run(subprocess.run, command_array, 
         # NOTE: we do not use the capture_output variable, as this doesn't work before
         # python 3.7, and we want users to be able to install before that
         stdout=subprocess.PIPE, 
