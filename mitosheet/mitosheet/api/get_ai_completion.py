@@ -69,7 +69,7 @@ def _get_ai_completion_from_mito_server(user_input: str, prompt: str) -> Dict[st
         }
 
         try:
-                res = requests.post(MITO_AI_URL, headers=headers, json=data)
+                res = requests.post(MITO_AI_URL, headers=headers, json=data, timeout=60)
         except:
                 return {
                         'error': f'There was an error accessing the Mito AI API. This is likely due to internet connectivity problems or a firewall.'
@@ -98,7 +98,7 @@ def _get_ai_completion_from_open_ai_api_compatible_server(url: str, user_input: 
         }
 
         try:
-                res = requests.post(url, headers=headers, json=data)
+                res = requests.post(url, headers=headers, json=data, timeout=60)
         except:
                 return {
                         'error': f'There was an error accessing the API at {url}. This is likely due to internet connectivity problems or a firewall.'
@@ -152,7 +152,7 @@ def get_ai_completion(params: Dict[str, Any], steps_manager: StepsManagerType) -
         }
 
         try:
-                res = requests.post(OPEN_AI_URL, headers=headers, json=data)
+                res = requests.post(OPEN_AI_URL, headers=headers, json=data, timeout=60)
         except:
                 return {
                         'error': f'There was an error accessing the OpenAI API. This is likely due to internet connectivity problems or a firewall.'

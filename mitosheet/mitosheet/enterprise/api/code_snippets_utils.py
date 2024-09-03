@@ -95,7 +95,7 @@ def get_custom_code_snippets(mito_config_code_snippets_url: str) -> Dict[str, An
 
     # Try to load code snippets from the URL
     try:
-        response = requests.get(mito_config_code_snippets_url, verify=False)
+        response = requests.get(mito_config_code_snippets_url, verify=False, timeout=60)
     except Exception as e:
         error_message = f"Error accessing the code snippets data from the URL. {e}" 
         log('get_code_snippet_error', {'get_code_snippet_error_reason': error_message})

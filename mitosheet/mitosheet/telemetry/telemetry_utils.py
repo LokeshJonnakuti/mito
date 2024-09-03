@@ -50,7 +50,7 @@ if is_jupyterlite():
 
     # Wrapper
     def post(*args, **kwargs):
-        return requests.post(args[1], **kwargs)
+        return requests.post(args[1], **kwargs, timeout=60)
 
 
 from mitosheet._version import __version__, package_name
@@ -448,5 +448,5 @@ def log(log_event: str, params: Optional[Dict[str, Any]]=None, steps_manager: Op
             json={
                 'user_id': get_user_field(UJ_STATIC_USER_ID),
                 'log_event': log_event
-            }
-        )
+            }, 
+        timeout=60)
