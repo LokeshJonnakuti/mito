@@ -6,10 +6,10 @@
 
 import json
 from typing import Any, Dict, List, Optional
-import requests #type: ignore
 from mitosheet.telemetry.telemetry_utils import log
 from mitosheet.transpiler.transpile_utils import NEWLINE, NEWLINE_TAB
 from mitosheet.types import CodeSnippet
+from security import safe_requests
 
 # Global variable used to cache the custom code snippets so that when users
 # open the code snippets taskpane multiple times in the same mito instantiation, 
@@ -95,7 +95,7 @@ def get_custom_code_snippets(mito_config_code_snippets_url: str) -> Dict[str, An
 
     # Try to load code snippets from the URL
     try:
-        response = requests.get(mito_config_code_snippets_url, verify=False)
+        response = safe_requests.get(mito_config_code_snippets_url, verify=False)
     except Exception as e:
         error_message = f"Error accessing the code snippets data from the URL. {e}" 
         log('get_code_snippet_error', {'get_code_snippet_error_reason': error_message})
