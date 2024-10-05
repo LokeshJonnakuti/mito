@@ -7,7 +7,6 @@
 Contains helpful utility functions
 """
 import json
-from random import randint
 import re
 import uuid
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -23,6 +22,7 @@ from mitosheet.types import (ColumnHeader, ColumnID, DataframeFormat, FrontendFo
 from mitosheet.excel_utils import get_df_name_as_valid_sheet_name
 
 from mitosheet.public.v3.formatting import add_formatting_to_excel_sheet
+import secrets
 
 
 # We only send the first 1500 rows of a dataframe; note that this
@@ -448,7 +448,7 @@ def get_new_id() -> str:
     return str(uuid.uuid4())
 
 def create_step_id() -> str:
-    return '_' + str(randint(10**9, 10**10-1))
+    return '_' + str(secrets.SystemRandom().randint(10**9, 10**10-1))
 
 
 def run_command(command_array: List[str]) -> Tuple[str, str]:

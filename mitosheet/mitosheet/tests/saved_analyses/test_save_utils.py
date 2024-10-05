@@ -8,7 +8,6 @@ Contains tests for save utils.
 """
 import json
 import os
-import random
 
 import pandas as pd
 import pytest
@@ -17,6 +16,7 @@ from mitosheet.saved_analyses.save_utils import read_and_upgrade_analysis
 from mitosheet.step_performers.filter import FC_NUMBER_EXACTLY
 from mitosheet.tests.test_utils import (create_mito_wrapper_with_data,
                                         create_mito_wrapper)
+import secrets
 
 # We assume only column A exists
 PERSIST_ANALYSIS_TESTS = [
@@ -106,7 +106,7 @@ def test_save_analysis_update():
     mito.add_column(0, 'B')
     mito.delete_columns(0, 'A')
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
 
     mito.save_analysis(random_name)
 
@@ -122,7 +122,7 @@ def test_save_analysis_update_and_overwrite():
     mito = create_mito_wrapper_with_data([1])
     mito.add_column(0, 'B')
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
 
     # Save it once    
     mito.save_analysis(random_name)
@@ -146,7 +146,7 @@ def test_failed_replay_does_not_add_steps():
     # Make an analysis and save it
     mito = create_mito_wrapper_with_data([1])
     mito.set_formula('=A + 1', 0, 'B', add_column=True)
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     # Try and rerun it on a dataframe it cannot be rerun on
@@ -171,7 +171,7 @@ def test_pivot_by_replays():
         {'Height': ['sum']}
     )
     
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     df1 = pd.DataFrame(data={'Name': ['Nate', 'Nate'], 'Height': [4, 5]})
@@ -201,7 +201,7 @@ def test_merge_replays():
         ['Name', 'Height']
     )
     
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     new_mito = create_mito_wrapper(df1)
@@ -227,7 +227,7 @@ def test_import_replays():
     # And then import just a test file
     mito.simple_import([TEST_FILE_PATH])
     
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     # Try and rerun it on a dataframe it cannot be rerun on
@@ -252,7 +252,7 @@ def test_replay_analysis_does_not_make_removed_columns():
 
     mito.add_column(0, 'C')
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     # Try and rerun it on a dataframe with no column B, and it shouldn't recreate B
@@ -288,7 +288,7 @@ def test_save_analysis_saves_skipped_steps():
 
     assert len(mito.steps_including_skipped) == 3
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     saved_analysis = read_and_upgrade_analysis(random_name, ['df1'])
@@ -308,7 +308,7 @@ def test_save_replays_overwrite_by_ids_propererly():
     mito.pivot_sheet(0, ['A'], ['A'], {'A': ['sum']}, step_id='1')
     mito.pivot_sheet(0, ['A'], [], {'A': ['count']}, step_id='1')
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     saved_analysis = read_and_upgrade_analysis(random_name, ['df1'])
@@ -325,7 +325,7 @@ def test_save_and_replay_different_interface_version_works():
     mito = create_mito_wrapper_with_data([1, 2, 3])
     mito.mito_backend.steps_manager.public_interface_version = 100
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     saved_analysis = read_and_upgrade_analysis(random_name, ['df1'])
@@ -344,7 +344,7 @@ def test_replay_failed_analysis_does_not_change_public_interface_version():
     mito.delete_columns(0, ['A'])
     mito.mito_backend.steps_manager.public_interface_version = 100
 
-    random_name = 'UUID-test_save' + str(random.random())
+    random_name = 'UUID-test_save' + str(secrets.SystemRandom().random())
     mito.save_analysis(random_name)
 
     new_mito = create_mito_wrapper(pd.DataFrame({'B': [1, 2, 3]}))
