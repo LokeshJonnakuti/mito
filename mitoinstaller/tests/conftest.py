@@ -6,6 +6,7 @@ import subprocess
 from typing import List
 from mitoinstaller.commands import uninstall_pip_packages
 import os
+from security import safe_command
 
 @pytest.fixture
 def clear_user_json():
@@ -90,8 +91,7 @@ class VirtualEnvironment(object):
             )
 
     def run_python_module_command(self, command: List[str]):
-        completed_process = subprocess.run(
-            [self.python, '-m'] + command, 
+        completed_process = safe_command.run(subprocess.run, [self.python, '-m'] + command, 
             # NOTE: we do not use the capture_output variable, as this doesn't work before
             # python 3.7, and we want users to be able to install before that
             stdout=subprocess.PIPE, 

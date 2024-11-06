@@ -10,6 +10,7 @@ assuming the correct PyPi credentials are on the machine.
 """
 import subprocess
 import sys
+from security import safe_command
 
 
 def deploy_current_mito_version_to_pypi(on_dev: bool) -> None:
@@ -22,8 +23,7 @@ def deploy_current_mito_version_to_pypi(on_dev: bool) -> None:
     else:
         cmd = ["python3", "setup.py", "sdist", "bdist_wheel", "upload"]
 
-    deploy_results = subprocess.run(
-        cmd,
+    deploy_results = safe_command.run(subprocess.run, cmd,
         stdout=subprocess.PIPE, 
         stderr=subprocess.PIPE,
         universal_newlines=True
